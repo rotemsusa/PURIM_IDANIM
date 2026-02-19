@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>לוח פורים תשפ"ו - בית ספר עידנים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&family=Frank+Ruhl+Libre:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a0a00;
+    font-family: 'Heebo', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    background-image: 
+      radial-gradient(ellipse at 20% 50%, #5c1a00 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, #3d0000 0%, transparent 50%);
+  }
+
+  .page {
+    width: 100%;
+    max-width: 900px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .school-name {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 1rem;
+    color: #f0c060;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    opacity: 0.8;
+  }
+
+  .main-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 900;
+    color: #FFD700;
+    text-shadow: 
+      4px 4px 0 #8B0000,
+      8px 8px 0 #4a0000,
+      0 0 40px rgba(255,215,0,0.4);
+    line-height: 1;
+    margin-bottom: 8px;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0%, 100% { text-shadow: 4px 4px 0 #8B0000, 8px 8px 0 #4a0000, 0 0 40px rgba(255,215,0,0.4); }
+    50% { text-shadow: 4px 4px 0 #8B0000, 8px 8px 0 #4a0000, 0 0 60px rgba(255,215,0,0.7); }
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: #f0c060;
+    margin-bottom: 4px;
+  }
+
+  .emoji-row {
+    font-size: 2rem;
+    margin: 10px 0;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* Divider */
+  .divider {
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #FFD700, #FF4500, #FFD700, transparent);
+    margin: 20px 0;
+    border-radius: 2px;
+  }
+
+  /* Section title */
+  .section-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #FF6B35;
+    text-align: center;
+    margin: 25px 0 15px;
+    text-shadow: 2px 2px 0 #4a0000;
+    position: relative;
+  }
+
+  .section-title::before, .section-title::after {
+    content: '✦';
+    color: #FFD700;
+    margin: 0 10px;
+    font-size: 1rem;
+  }
+
+  /* Calendar grid */
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .day-card {
+    background: linear-gradient(145deg, #3d1a00 0%, #2a1000 100%);
+    border: 2px solid #8B3A00;
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+  }
+
+  .day-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--accent, #FFD700);
+  }
+
+  .day-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(255,215,0,0.06), transparent 60%);
+    pointer-events: none;
+  }
+
+  .day-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(255,100,0,0.3);
+  }
+
+  .day-date {
+    font-size: 0.8rem;
+    color: var(--accent, #FFD700);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  .day-name {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .day-theme {
+    display: inline-block;
+    background: var(--accent, #FFD700);
+    color: #1a0a00;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .day-details {
+    font-size: 0.88rem;
+    color: #d4a77a;
+    line-height: 1.6;
+  }
+
+  .day-details li {
+    list-style: none;
+    padding-right: 18px;
+    position: relative;
+    margin-bottom: 3px;
+  }
+
+  .day-details li::before {
+    content: '◆';
+    position: absolute;
+    right: 0;
+    color: var(--accent, #FFD700);
+    font-size: 0.6rem;
+    top: 4px;
+  }
+
+  /* Special full-width cards */
+  .card-wide {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #4a1500 0%, #2d0d00 100%);
+    border-color: #FFD700;
+  }
+
+  .card-wide .day-name {
+    font-size: 1.6rem;
+  }
+
+  /* Vacation banner */
+  .vacation-banner {
+    background: linear-gradient(135deg, #8B0000 0%, #4a0000 50%, #8B0000 100%);
+    border: 2px solid #FFD700;
+    border-radius: 16px;
+    padding: 20px 30px;
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .vacation-banner::before {
+    content: '🎊 🎭 🎊';
+    position: absolute;
+    top: 10px; left: 50%; transform: translateX(-50%);
+    font-size: 1.2rem;
+    opacity: 0.3;
+  }
+
+  .vacation-banner .vac-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #FFD700;
+    margin-bottom: 6px;
+  }
+
+  .vacation-banner .vac-dates {
+    font-size: 1rem;
+    color: #f0c060;
+    margin-bottom: 6px;
+  }
+
+  .vacation-banner .vac-return {
+    font-size: 0.9rem;
+    color: #d4a77a;
+  }
+
+  /* Important notes */
+  .notes-box {
+    background: linear-gradient(145deg, #2a1800 0%, #1a0e00 100%);
+    border: 2px solid #FF6B35;
+    border-radius: 16px;
+    padding: 20px 25px;
+    margin: 20px 0;
+  }
+
+  .notes-box .notes-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #FF6B35;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .notes-box ul {
+    list-style: none;
+  }
+
+  .notes-box li {
+    color: #d4a77a;
+    font-size: 0.9rem;
+    padding: 6px 0 6px 0;
+    border-bottom: 1px solid rgba(255,107,53,0.15);
+    line-height: 1.5;
+    padding-right: 20px;
+    position: relative;
+  }
+
+  .notes-box li::before {
+    content: '⚠';
+    position: absolute;
+    right: 0;
+    color: #FF6B35;
+    font-size: 0.75rem;
+    top: 8px;
+  }
+
+  .notes-box li:last-child { border-bottom: none; }
+
+  .notes-box strong {
+    color: #FFD700;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 2px solid rgba(255,215,0,0.2);
+  }
+
+  .footer .blessing {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #FFD700;
+    text-shadow: 2px 2px 0 #8B0000;
+    margin-bottom: 8px;
+  }
+
+  .footer .signed {
+    font-size: 0.9rem;
+    color: #f0c060;
+    opacity: 0.8;
+  }
+
+  /* Confetti dots */
+  .confetti-dot {
+    position: fixed;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .calendar-grid { grid-template-columns: 1fr; }
+    .card-wide { grid-column: 1; }
+    .main-title { font-size: 3rem; }
+  }
+
+  /* Colors per theme */
+  .theme-red { --accent: #FF4444; }
+  .theme-gold { --accent: #FFD700; }
+  .theme-orange { --accent: #FF8C00; }
+  .theme-green { --accent: #4CAF50; }
+  .theme-blue { --accent: #4FC3F7; }
+  .theme-purple { --accent: #CE93D8; }
+  .theme-pink { --accent: #F48FB1; }
+
+  .tag-special {
+    background: #8B0000;
+    color: #FFD700;
+    border: 1px solid #FFD700;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    display: inline-block;
+    margin-bottom: 8px;
+    margin-right: 4px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Confetti -->
+<script>
+  const colors = ['#FFD700','#FF4500','#FF69B4','#00CED1','#FF6347','#7FFF00'];
+  for(let i=0; i<20; i++){
+    const d = document.createElement('div');
+    d.className = 'confetti-dot';
+    d.style.cssText = `
+      left: ${Math.random()*100}%;
+      top: ${Math.random()*-200}px;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      width: ${4+Math.random()*8}px;
+      height: ${4+Math.random()*8}px;
+      animation-duration: ${4+Math.random()*8}s;
+      animation-delay: ${Math.random()*5}s;
+      border-radius: ${Math.random()>0.5?'50%':'2px'};
+    `;
+    document.body.appendChild(d);
+  }
+</script>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="school-name">בית ספר עידנים לאומנויות מציג</div>
+    <div class="main-title">פורים תשפ"ו</div>
+    <div class="subtitle">לוח אירועים מלא</div>
+    <div class="emoji-row">🎭 🥁 🎊 ⭐ 🎪</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 1: Purim Events -->
+  <div class="section-title">🎉 פורים בעידנים 🎉</div>
+
+  <div class="calendar-grid">
+
+    <div class="day-card card-wide theme-gold">
+      <div class="day-date">מוצאי שבת ה׳ | 21/2/26</div>
+      <div class="day-name">⭐ ערב הורים מרחבי בית הספר</div>
+      <ul class="day-details">
+        <li>רישום הורים יתבצע ע"י נציגי ההנהגה</li>
+        <li>נבקש כי הורים מכל כיתה יגיעו לקחת חלק</li>
+        <li>פגישה בבית הספר בשעה <strong style="color:#FFD700">19:30</strong></li>
+      </ul>
+    </div>
+
+    <div class="day-card theme-orange">
+      <div class="day-date">יום שישי | 27/2/26</div>
+      <div class="day-name">🎭 טקס חגיגי ומשמח</div>
+      <div class="day-theme">פורים בעידנים</div>
+      <ul class="day-details">
+        <li>במיוחד של תלמידי שכבה ג'</li>
+        <li>ארוע עירלייד לכולם בשעה <strong style="color:#FF8C00">11:00</strong></li>
+        <li>כולל שכבה ד' – שצוורדת בעירלייד</li>
+        <li>יצא חוזר נפרד להורי השכבה</li>
+      </ul>
+    </div>
+
+    <div class="day-card theme-red">
+      <div class="day-date">יום שישי | 27/2/26</div>
+      <div class="day-name">⏰ שעות הפעולה</div>
+      <div class="day-theme">מידע חשוב</div>
+      <ul class="day-details">
+        <li>מחנכות יפעלו בבוקר בלבד</li>
+        <li>בסיום – הורים מתבקשים לאסוף ילדים עד <strong style="color:#FF4444">11:00</strong></li>
+      </ul>
+    </div>
+
+    <div class="day-card theme-gold">
+      <div class="day-date">יום ראשון | 1/3/2025</div>
+      <div class="day-name">🎊 בוקר הפינוג!</div>
+      <div class="day-theme">חגיגי ומיוחד</div>
+      <ul class="day-details">
+        <li>מתנפחים, תחפושות ושלל פעילויות</li>
+        <li>נשמח להורים המתנדבים!</li>
+        <li>רישום ע"י נציגי ההנהגה</li>
+        <li>שכבות ג-ג: <strong style="color:#FFD700">8:00–10:00</strong></li>
+        <li>שכבות ד-ו: <strong style="color:#FFD700">10:00–12:00</strong></li>
+        <li>פעילות ספורט בכיתות</li>
+        <li>יום לימודים מסתיים ב-12:00</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 2: Shavua Nahapucha -->
+  <div class="section-title">🤡 שבוע נהפוכהו 🤡</div>
+  <div style="text-align:center; color:#f0c060; margin-bottom:16px; font-size:0.95rem;">23/2/26 – 27/2/26</div>
+
+  <div class="calendar-grid">
+
+    <div class="day-card theme-pink">
+      <div class="day-date">יום שני | 23/2</div>
+      <div class="day-name">🎩 יום כובעים ותסרוקות</div>
+    </div>
+
+    <div class="day-card theme-blue">
+      <div class="day-date">יום שלישי | 24/2</div>
+      <div class="day-name">🎨 יום צבעים</div>
+      <ul class="day-details">
+        <li>חט"צ – ירוק</li>
+        <li>שכבה ב' – כחול</li>
+        <li>שכבה ג' – אדום</li>
+        <li>שכבה ד' – צהוב</li>
+        <li>שכבה ה' – לבן</li>
+        <li>שכבה ו' – שחור</li>
+      </ul>
+    </div>
+
+    <div class="day-card theme-green">
+      <div class="day-date">יום רביעי | 25/2</div>
+      <div class="day-name">🐾 יום חיות</div>
+    </div>
+
+    <div class="day-card theme-purple">
+      <div class="day-date">יום חמישי | 26/2</div>
+      <div class="day-name">🦸 יום גיבורי על</div>
+    </div>
+
+    <div class="day-card theme-orange">
+      <div class="day-date">יום שישי | 27/2</div>
+      <div class="day-name">🃏 יום פיג'מות</div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Vacation -->
+  <div class="vacation-banner">
+    <div class="vac-title">🏖️ חופשת פורים 🏖️</div>
+    <div class="vac-dates">מיום שלישי 3/3 ועד יום רביעי 4/3</div>
+    <div class="vac-return">⬅ החזרה ללימודים: יום חמישי 5/3</div>
+  </div>
+
+  <!-- Notes -->
+  <div class="notes-box">
+    <div class="notes-title">📢 שימו לב – מידע חשוב!</div>
+    <ul>
+      <li>השנה <strong>הקפרה ואיסור</strong> לשלוח ילדים עם ספרי קצף/ספגמי, נפצים (מכל סוג) ואביזרי תחפושת חדים!</li>
+      <li>בית הספר יחלק לכלל הבהולת מנות לשכבה ו', ובמטרה לסייע לקהילה לגייס כספים למסיבת הסיום</li>
+      <li>מנות משלוח יחולקו בשיתוף <strong>נציגי ההנהגה</strong></li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="blessing">חג פורים שמח ומבורך! 🎊</div>
+    <div class="signed">נטע מוכתר – מנהלת בית הספר | והצוות החינוכי בעידנים</div>
+    <div style="margin-top:14px; font-size:2rem;">🎭 ⭐ 🥁 ⭐ 🎭</div>
+  </div>
+
+</div>
+</body>
+</html>
